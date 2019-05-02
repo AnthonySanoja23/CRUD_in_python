@@ -1,4 +1,4 @@
-# Hello World program in Python
+
     
 import sys
 clientes = ['Anthony','Alejandro']
