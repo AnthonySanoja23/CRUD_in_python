@@ -1,5 +1,4 @@
 import sys
-
 clientes = ['Anthony','Alejandro']
 
 
@@ -15,14 +14,18 @@ def agregarcliente_a_la_lista_de_clientes(cliente_nuevo):
 
 def borrar_clientes(cliente_nuevo):
     global clientes 
+
     if cliente_nuevo in clientes :
        clientes.remove(cliente_nuevo)
     else:
        print('El cliente que ingreso no se pudo eliminar por que no esta registrado ')  
 
+
 def listar_clientes():
-    for idx, clientes in enumerate(clientes):
-        print('{}: {}'.format(idx,client))
+    global clientes
+
+    for idx, cliente in enumerate(clientes):
+        print('{}){}'.format(idx,cliente))
      
 
 
@@ -41,17 +44,17 @@ def _obtener_nombre_del_cliente():
 
     return cliente_nuevo         
 
-def actualizar_cliente(cliente_nuevo,updated_name):
+def actualizar_cliente(cliente_nuevo,nuevo_nombre):
+    
     global clientes
 
     if cliente_nuevo in clientes:
-       index = clientes.index(cliente_nombre)
-       clientes[index] = updated_name
+       index = clientes.index(cliente_nuevo)
+       clientes[index] = nuevo_nombre
+       print('Cliente Actualizado')
+       
      
     
-    else:
-          print('No hizo ningun cambio en el nombre')
-
     else:
        print('El cliente no esta registrado en la lista ')
 
@@ -94,7 +97,8 @@ if __name__=='__main__':
 
     elif comando == 'A':
        cliente_nuevo = _obtener_nombre_del_cliente()
-       actualizar_cliente(cliente_nuevo)
+       cliente_nombre = input('Digite el nombre nuevo del cliente: ')
+       actualizar_cliente(cliente_nuevo,cliente_nombre)
        listar_clientes()
 
     elif comando == 'L':
@@ -117,7 +121,6 @@ if __name__=='__main__':
     else:
         print('Este comando no existe')
        
-
 
 
 
