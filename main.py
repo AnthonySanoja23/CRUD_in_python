@@ -1,129 +1,165 @@
 import sys
-clientes = ['Anthony','Alejandro']
+
+clientes = [
+			{
+				'nombre':'Anthony',
+				'apellido':'Sanoja',
+				'edad':'23',
+				'cargo':'Programador',
+				'email':'anthonysanoja95@google.com',
+				'compañia':'GOOGLE',
+				
+			},
+			{
+				'nombre':'Alejandro',
+				'apellido':'Ortegano',
+				'edad':'30',
+				'cargo':'Devops',
+				'email':'alejandro.ortegano@facebook.com',
+				'compañia':'Facebook',
+			}
+]
+
+def agregarcliente_a_la_lista_de_clientes(cliente):
+		global clientes #Agarra cualquier variable global para poder ser usada
+		if cliente not in clientes:
+						clientes.append(cliente)
+						
+		else:
+				print("El cliente que digito ya esta Registardo ")
 
 
-def agregarcliente_a_la_lista_de_clientes(cliente_nuevo):
-    global clientes #Agarra cualquier variable global para poder ser usada
-    if cliente_nuevo not in clientes:
-            clientes.append(cliente_nuevo)
-            
-    else:
-        print("El cliente que digito ya esta Registardo ")
 
+def borrar_clientes(client_id):
+		global clients
 
-
-def borrar_clientes(cliente_nuevo):
-    global clientes 
-
-    if cliente_nuevo in clientes :
-       clientes.remove(cliente_nuevo)
-    else:
-       print('El cliente que ingreso no se pudo eliminar por que no esta registrado ')  
+		for idx, cliente in enumerate(clientes):
+				if idx == cliente_id:
+						del clientes[idx] 
+						break
+		else:
+			 print('El cliente que ingreso no se pudo eliminar por que no esta registrado ')  
 
 
 def listar_clientes():
-    global clientes
+	
+			print('\n')
+			global clientes
+							 
+			for idx, cliente in enumerate(clientes):
 
-    for idx, cliente in enumerate(clientes):
-        print('{}){}'.format(idx,cliente))
-     
+					print('{uid} | {nombre} | {apellido} | {edad} | {cargo} | {email} | {compañia}'.format(
+					uid=idx,
+					nombre=cliente['nombre'],
+					apellido=cliente['apellido'],
+					edad=cliente['edad'],
+					cargo=cliente['cargo'],
+					email=cliente['email'],
+					compañia=cliente['compañia']))
+			
+	
+		 
+def _obtener_cliente_campo(nombre_campo):
+		campo = None
+	
+		while not campo:
+				campo = input('Cual es el {} del cliente :'.format(nombre_campo))
+	
+		return campo
 
-
-def _obtener_nombre_del_cliente():
-    cliente_nuevo = None #En python es como decirle que no hay ningun valor en la variable  
-
-    while not cliente_nuevo:
-      cliente_nuevo = input ('Cual es el nombre del cliente: ')
-
-      if cliente_nuevo == 'exit':
-          cliente_nuevo = None
-          break # Funciona para terminar el programa 
-
-    if not cliente_nuevo:
-           sys.exit()  
-
-    return cliente_nuevo         
-
-def actualizar_cliente(cliente_nuevo,nuevo_nombre):
     
-    global clientes
 
-    if cliente_nuevo in clientes:
-       index = clientes.index(cliente_nuevo)
-       clientes[index] = nuevo_nombre
-       print('Cliente Actualizado')
-       
-     
-    
-    else:
-       print('El cliente no esta registrado en la lista ')
 
-def buscar_cliente(cliente_nuevo):
+def actualizar_cliente(cliente_id,actr_cliente):
+		global clientes
 
-  for nombres in clientes:
-    if nombres != cliente_nuevo:
-        continue
-    else:
-        return True
-           
+		if len(clientes) - 1 >= cliente_id:
+				clientes[cliente_id] = actr_cliente
+					
+		else:
+			 print('El cliente no esta registrado en la lista ')
+
+
+
+def buscar_cliente(cliente_nombre):
+
+	for cliente in clientes:
+
+			if cliente['nombre'] != cliente_nombre:
+					continue
+			else:
+					return True
+
+
+
+def obtener_informacion_completa() :
+		cliente = {
+				'nombre':_obtener_cliente_campo('nombre'),
+				'apellido':_obtener_cliente_campo('apellido'),
+				'edad':_obtener_cliente_campo('edad'),
+				'cargo':_obtener_cliente_campo('cargo'),
+				'email':_obtener_cliente_campo('email'),
+				'compañia':_obtener_cliente_campo('compañia'),    
+		}
+
+		return cliente				 
 
 
 
 def _menu():
 
-   
-    print('\t'+'*'*35)
-    print('\t'+'* Bienvenido al Sistema de Ventas * ')
-    print('\t'+'*'*35)
+	 
+		print('\t'+'*'*35)
+		print('\t'+'* Bienvenido al Sistema de Ventas * ')
+		print('\t'+'*'*35)
 
-    print('Que quieres hacer tu hoy ?')
-    print('Crear Cliente [C]')
-    print('Actualizar Clientes [A]')
-    print('Listar clientes [L]')
-    print('Buscar Cliente [B]')
-    print('Eliminar Clientes [D]')      
+		print('Que quieres hacer tu hoy ?')
+		print('Crear Cliente [C]')
+		print('Actualizar Clientes [A]')
+		print('Listar clientes [L]')
+		print('Buscar Cliente [B]')
+		print('Eliminar Clientes [D]')      
  
 
 if __name__=='__main__':
-    _menu()
-    print('\n')
-    comando = input('Digite su opción: ') #Es el cin>> de python 
-    comando = comando.upper() # Prevenir que el usuario digite el comando en minuscula 
+		_menu()
+		print('\n')
+		comando = input('Digite su opción: ') #Es el cin>> de python 
+		comando = comando.upper() # Prevenir que el usuario digite el comando en minuscula 
 
-    if comando == 'C':
-        cliente_nuevo = _obtener_nombre_del_cliente()
-        agregarcliente_a_la_lista_de_clientes(cliente_nuevo)
-        listar_clientes()
+		if comando == 'C':
+			cliente= obtener_informacion_completa()		
+			agregarcliente_a_la_lista_de_clientes(cliente)
+			listar_clientes()
 
-    elif comando == 'A':
-       cliente_nuevo = _obtener_nombre_del_cliente()
-       cliente_nombre = input('Digite el nombre nuevo del cliente: ')
-       actualizar_cliente(cliente_nuevo,cliente_nombre)
-       listar_clientes()
+		elif comando == 'A':
+			
+			 cliente_id= int(_obtener_cliente_campo('id'))
+			 actr_cliente = obtener_informacion_completa()
 
-    elif comando == 'L':
-         listar_clientes()   
+			 actualizar_cliente(cliente_id,actr_cliente)
+				
+			 listar_clientes()
 
-    elif comando == 'D':
-       cliente_nuevo = _obtener_nombre_del_cliente()
-       borrar_clientes(cliente_nuevo)
-       listar_clientes()
-    
-    elif comando == 'B':
-        cliente_nuevo = _obtener_nombre_del_cliente()
-        cliente_encontrado = buscar_cliente(cliente_nuevo)
-        
-        if cliente_encontrado:
-           print('El cliente',cliente_nuevo,'esta en la lista ')
-        else :
-           print('El cliente',cliente_nuevo,'no esta en la lista ')         
-        
-    else:
-        print('Este comando no existe')
-       
+		elif comando == 'L':
+				 listar_clientes()   
 
-
-
+		elif comando == 'D':
+			 cliente_id = int(_obtener_cliente_campo('id'))
+			 borrar_clientes(cliente_id)
+			 listar_clientes()
+		
+		elif comando == 'B':
+				cliente_nombre=_obtener_cliente_campo('nombre')
+				cliente_encontrado = buscar_cliente(cliente_nombre)
+				
+				if cliente_encontrado:
+					 print('El cliente',cliente_nombre,'esta en la lista ')
+				else :
+					 print('El cliente',cliente_nombre,'no esta en la lista ')         
+				
+		else:
+				print('Este comando no existe')
 
 
 
