@@ -4,7 +4,7 @@ import json
 
 from pathlib import Path
 
-my_file = Path("/home/anthony/Escritorio/Cursos de platzi /Python/App_Platzi/clientes.json")
+my_file = Path("clientes.json")
 
 clientes = []
 
