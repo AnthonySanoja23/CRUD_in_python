@@ -1,29 +1,31 @@
 import sys
+import os
+import json
 
-clientes = [
-			{
-				'nombre':'Anthony',
-				'apellido':'Sanoja',
-				'edad':'23',
-				'cargo':'Programador',
-				'email':'anthonysanoja95@google.com',
-				'compañia':'GOOGLE',
-				
-			},
-			{
-				'nombre':'Alejandro',
-				'apellido':'Ortegano',
-				'edad':'30',
-				'cargo':'Devops',
-				'email':'alejandro.ortegano@facebook.com',
-				'compañia':'Facebook',
-			}
-]
+from pathlib import Path
+
+my_file = Path("/home/anthony/Escritorio/Cursos de platzi /Python/App_Platzi/clientes.json")
+
+clientes = []
+
+
+if my_file.exists():
+
+	archivo = open("clientes.json", "r")
+	datos = archivo.read()
+	archivo.close()
+	clientes = json.loads(datos)	
+
+else:
+
+	print("No hay data cargada debido a que el archivo no existe ")
+	input("Presione una tecla para continuar")
 
 def agregarcliente_a_la_lista_de_clientes(cliente):
 		global clientes #Agarra cualquier variable global para poder ser usada
 		if cliente not in clientes:
 						clientes.append(cliente)
+						guardar_en_json()
 						
 		else:
 				print("El cliente que digito ya esta Registardo ")
@@ -35,7 +37,8 @@ def borrar_clientes(client_id):
 
 		for idx, cliente in enumerate(clientes):
 				if idx == cliente_id:
-						del clientes[idx] 
+						del clientes[idx]
+						guardar_en_json() 
 						break
 		else:
 			 print('El cliente que ingreso no se pudo eliminar por que no esta registrado ')  
@@ -67,7 +70,7 @@ def _obtener_cliente_campo(nombre_campo):
 	
 		return campo
 
-    
+	
 
 
 def actualizar_cliente(cliente_id,actr_cliente):
@@ -75,7 +78,9 @@ def actualizar_cliente(cliente_id,actr_cliente):
 
 		if len(clientes) - 1 >= cliente_id:
 				clientes[cliente_id] = actr_cliente
-					
+
+				guardar_en_json()
+
 		else:
 			 print('El cliente no esta registrado en la lista ')
 
@@ -102,26 +107,38 @@ def obtener_informacion_completa() :
 				'compañia':_obtener_cliente_campo('compañia'),    
 		}
 
-		return cliente				 
+		return cliente	
+
+
+def guardar_en_json():
+
+	datos = json.dumps(clientes)
+	f = open('clientes.json','w')
+	f.write(datos)
+	f.close()					 
 
 
 
 def _menu():
 
-	 
+		os.system('clear')
 		print('\t'+'*'*35)
 		print('\t'+'* Bienvenido al Sistema de Ventas * ')
 		print('\t'+'*'*35)
 
 		print('Que quieres hacer tu hoy ?')
-		print('Crear Cliente [C]')
-		print('Actualizar Clientes [A]')
-		print('Listar clientes [L]')
-		print('Buscar Cliente [B]')
-		print('Eliminar Clientes [D]')      
+		print('[C]rear Cliente ')
+		print('[A]ctualizar Clientes ')
+		print('[L]istar clientes ')
+		print('[B]uscar Cliente ')
+		print('[E]liminar Clientes ')
+		print('[S]alir ')      
  
 
 if __name__=='__main__':
+	
+	while True:
+
 		_menu()
 		print('\n')
 		comando = input('Digite su opción: ') #Es el cin>> de python 
@@ -131,6 +148,7 @@ if __name__=='__main__':
 			cliente= obtener_informacion_completa()		
 			agregarcliente_a_la_lista_de_clientes(cliente)
 			listar_clientes()
+			input("Presione cualquier tecla para continuar")
 
 		elif comando == 'A':
 			
@@ -140,14 +158,18 @@ if __name__=='__main__':
 			 actualizar_cliente(cliente_id,actr_cliente)
 				
 			 listar_clientes()
+			 input("Presione cualquier tecla para continuar")
 
 		elif comando == 'L':
-				 listar_clientes()   
+				 listar_clientes() 
+				 input("Presione cualquier tecla para continuar")
 
-		elif comando == 'D':
+
+		elif comando == 'E':
 			 cliente_id = int(_obtener_cliente_campo('id'))
 			 borrar_clientes(cliente_id)
 			 listar_clientes()
+			 input("Presione cualquier tecla para continuar")
 		
 		elif comando == 'B':
 				cliente_nombre=_obtener_cliente_campo('nombre')
@@ -155,12 +177,16 @@ if __name__=='__main__':
 				
 				if cliente_encontrado:
 					 print('El cliente',cliente_nombre,'esta en la lista ')
+					 input("Presione cualquier tecla para continuar")
 				else :
-					 print('El cliente',cliente_nombre,'no esta en la lista ')         
+					 print('El cliente',cliente_nombre,'no esta en la lista ')
+					 input("Presione cualquier tecla para continuar") 
+
+		elif comando =='S':
+			print("Gracias por usar el sistema. Regrese pronto")
+			break 			         
 				
 		else:
 				print('Este comando no existe')
-
-
-
-    
+				input("Presione cualquier tecla para continuar")
+			 
