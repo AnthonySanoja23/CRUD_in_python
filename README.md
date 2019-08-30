@@ -1,4 +1,4 @@
-# CRUD CON PYTHON  
+# CRUD PYTHON  
 ## Funciones 
 
 1. Crear Cliente
